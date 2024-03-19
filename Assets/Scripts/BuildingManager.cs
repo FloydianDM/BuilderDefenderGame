@@ -37,7 +37,7 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (_activeBuildingType == null)
+        if (_activeBuildingType == null || !CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition()))
         {
             return;
         }
@@ -61,5 +61,58 @@ public class BuildingManager : MonoBehaviour
         _buildingSelectUI.SetActiveBuildingButton(_activeBuildingType);
 
         OnActiveBuildingChanged?.Invoke(_activeBuildingType);
+    }
+
+    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position)
+    {
+        BoxCollider2D boxCol = buildingType.Prefab.GetComponent<BoxCollider2D>();
+        Collider2D[] colliderArray = Physics2D.OverlapBoxAll(
+            position + (Vector3)boxCol.offset, boxCol.size, 0);
+
+        bool isAreaClear = colliderArray.Length == 0;
+
+        if (!isAreaClear)
+        {
+            return false;
+        }
+        
+        colliderArray = Physics2D.OverlapCircleAll(position, buildingType.MinConstructionRadius);
+
+        foreach (var col in colliderArray)
+        {
+            // Colliders inside the construction radius
+            BuildingTypeHolder buildingTypeHolder = col.GetComponent<BuildingTypeHolder>();
+
+            if (buildingTypeHolder != null)
+            {
+                if (buildingTypeHolder.BuildingType == buildingType)
+                {
+                    // There's already a building in same type
+
+                    return false;
+                }
+            }
+        }
+        
+        // Max distance between any buildings to prevent overuse of the map
+
+        float maxConstructionRadius = 25f;
+        
+        colliderArray = Physics2D.OverlapCircleAll(position, maxConstructionRadius);
+
+        foreach (var col in colliderArray)
+        {
+            // Colliders inside the construction radius
+            BuildingTypeHolder buildingTypeHolder = col.GetComponent<BuildingTypeHolder>();
+
+            if (buildingTypeHolder != null)
+            {
+                // It's a building
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

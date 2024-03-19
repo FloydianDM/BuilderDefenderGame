@@ -7,6 +7,7 @@ public class BuildingSelectUI : MonoBehaviour
     [SerializeField] private Sprite _cursorSprite;
     [SerializeField] private Transform _buttonTemplate;
     [SerializeField] private BuildingManager _buildingManager;
+    [SerializeField] private List<BuildingTypeSO> _ignoredBuildingTypeList; // for the buildings that are built in the scene
 
     private BuildingTypeListSO _buildingTypeList;
     private Dictionary<BuildingTypeSO, Transform> _buildingTypeToButtonTransformDict = new();
@@ -29,6 +30,11 @@ public class BuildingSelectUI : MonoBehaviour
 
         foreach (BuildingTypeSO buildingType in _buildingTypeList.BuildingTypes)
         {
+            if (_ignoredBuildingTypeList.Contains(buildingType))
+            {
+                continue;
+            }
+            
             Transform buttonTransform = Instantiate(_buttonTemplate, transform);
             
             buttonTransform.GetComponent<RectTransform>().anchoredPosition =
