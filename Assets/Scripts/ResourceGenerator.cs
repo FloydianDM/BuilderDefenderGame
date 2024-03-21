@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ResourceGenerator : MonoBehaviour
@@ -5,20 +6,38 @@ public class ResourceGenerator : MonoBehaviour
    private ResourceGeneratorData _resourceGeneratorData;
    private float _timer;
    private float _timerMax;
-   private float _resourceCollectionRadius;
    private int _maxResourceAmount;
+
+   public event Action OnGenerationRateChanged;
+   public event Action OnTimeChanged;
 
    private void Awake()
    {
       _resourceGeneratorData = GetComponent<BuildingTypeHolder>().BuildingType.ResourceGeneratorData;
       _timerMax = _resourceGeneratorData.TimerMax;
-      _resourceCollectionRadius = _resourceGeneratorData.ResourceCollectionRadius;
       _maxResourceAmount = _resourceGeneratorData.MaxResourceAmount;
    }
 
    private void Start()
    {
-      Collider2D[] resourceColliderArray = Physics2D.OverlapCircleAll(transform.position, _resourceCollectionRadius);
+      int nearbyResourceAmount = GetNearbyResourceAmount(_resourceGeneratorData, transform.position);
+
+      if (nearbyResourceAmount == 0)
+      {
+         // disable the script, no resource nearby
+         enabled = false;
+      }
+      else
+      {
+         // algorithm for tweaking collection speed regarding to nearby resource amount
+         _timerMax = (_timerMax / 2f) + _timerMax * (1 - (float)nearbyResourceAmount / _maxResourceAmount);
+         OnGenerationRateChanged?.Invoke();
+      }
+   }
+
+   public static int GetNearbyResourceAmount(ResourceGeneratorData resourceGeneratorData, Vector3 position)
+   {
+      Collider2D[] resourceColliderArray = Physics2D.OverlapCircleAll(position, resourceGeneratorData.ResourceCollectionRadius);
       
       int nearbyResourceAmount = 0;
       
@@ -28,24 +47,15 @@ public class ResourceGenerator : MonoBehaviour
          
          if (resourceNode != null)
          {
-            if (resourceNode.ResourceType == _resourceGeneratorData.ResourceType)
+            if (resourceNode.ResourceType == resourceGeneratorData.ResourceType)
             {
                nearbyResourceAmount++;
             }
          }
-         else
-         {
-            // algorithm for tweaking collection speed regarding to nearby resource amount
-            _timerMax = (_timerMax / 2f) + _timerMax * (1 - (float)nearbyResourceAmount / _maxResourceAmount);
-         }
       }
 
-      nearbyResourceAmount = Mathf.Clamp(nearbyResourceAmount, 0, _maxResourceAmount);
-
-      if (nearbyResourceAmount == 0)
-      {
-         enabled = false; // disable the script
-      }
+      nearbyResourceAmount = Mathf.Clamp(nearbyResourceAmount, 0, resourceGeneratorData.MaxResourceAmount);
+      return nearbyResourceAmount;
    }
 
    private void Update()
@@ -56,6 +66,8 @@ public class ResourceGenerator : MonoBehaviour
    private void ExecuteTimer()
    {
       _timer += Time.deltaTime;
+      
+      OnTimeChanged?.Invoke();
 
       if (_timer >= _timerMax)
       {
@@ -64,5 +76,20 @@ public class ResourceGenerator : MonoBehaviour
          // add resource
          ResourceManager.Instance.AddResource(_resourceGeneratorData.ResourceType, 1);
       }
+   }
+
+   public ResourceGeneratorData GetResourceGeneratorData()
+   {
+      return _resourceGeneratorData;
+   }
+
+   public float GetTimerNormalized()
+   {
+      return _timer / _timerMax;
+   }
+
+   public float GetGeneratedResourceAmountPerSecond()
+   {
+      return 1 / _timerMax;
    }
 }

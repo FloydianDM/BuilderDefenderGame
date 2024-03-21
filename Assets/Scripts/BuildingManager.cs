@@ -8,7 +8,6 @@ public class BuildingManager : MonoBehaviour
 {
     [SerializeField] private BuildingSelectUI _buildingSelectUI;
     
-    private Camera _mainCamera;
     private BuildingTypeListSO _buildingTypeList;
     private BuildingTypeSO _activeBuildingType;
 
@@ -21,7 +20,6 @@ public class BuildingManager : MonoBehaviour
 
     private void Start()
     {
-        _mainCamera = Camera.main;
         BuilderDefenderGameInputActions inputActions = new();
         
         inputActions.Player.Enable();
@@ -37,12 +35,15 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (_activeBuildingType == null || !CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition()))
+        if (_activeBuildingType == null || 
+            !CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition()) ||
+            !ResourceManager.Instance.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
         {
             return;
         }
         
         Instantiate(_activeBuildingType.Prefab, UtilsClass.GetMouseWorldPosition(), quaternion.identity);
+        ResourceManager.Instance.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }
 
     private void SelectPreviousBuilding(InputAction.CallbackContext context)
