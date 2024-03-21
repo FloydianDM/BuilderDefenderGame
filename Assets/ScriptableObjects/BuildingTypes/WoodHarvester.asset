@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361e3a8e0607e4d0aa93db6763ab4963, type: 3}
   m_Name: WoodHarvester
   m_EditorClassIdentifier: 
-  NameString: WoodHarvester
+  NameString: Wood Harvester
   Prefab: {fileID: 6739349632950571776, guid: 7eed57f879ec847e7aeb3e02048d32ac, type: 3}
   ResourceGeneratorData:
     TimerMax: 0.5

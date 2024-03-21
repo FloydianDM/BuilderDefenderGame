@@ -35,13 +35,26 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (_activeBuildingType == null || 
-            !CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition()) ||
-            !ResourceManager.Instance.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
+        if (_activeBuildingType == null)
         {
             return;
         }
-        
+
+        if (!ResourceManager.Instance.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
+        {
+            TooltipUI.Instance.ShowTooltipText("Cannot afford the building! " + 
+                                               _activeBuildingType.GetConstructionResourceCostString());
+            
+            return;
+        }
+
+        if (!CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition(), out string errorMessage))
+        {
+            TooltipUI.Instance.ShowTooltipText(errorMessage);
+            
+            return;
+        }
+
         Instantiate(_activeBuildingType.Prefab, UtilsClass.GetMouseWorldPosition(), quaternion.identity);
         ResourceManager.Instance.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }
@@ -64,7 +77,7 @@ public class BuildingManager : MonoBehaviour
         OnActiveBuildingChanged?.Invoke(_activeBuildingType);
     }
 
-    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position)
+    private bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position, out string errorMessage)
     {
         BoxCollider2D boxCol = buildingType.Prefab.GetComponent<BoxCollider2D>();
         Collider2D[] colliderArray = Physics2D.OverlapBoxAll(
@@ -74,6 +87,7 @@ public class BuildingManager : MonoBehaviour
 
         if (!isAreaClear)
         {
+            errorMessage = "Area isn't clear";
             return false;
         }
         
@@ -90,6 +104,7 @@ public class BuildingManager : MonoBehaviour
                 {
                     // There's already a building in same type
 
+                    errorMessage = "There is another building around for same resource!";
                     return false;
                 }
             }
@@ -110,10 +125,12 @@ public class BuildingManager : MonoBehaviour
             {
                 // It's a building
 
+                errorMessage = null;
                 return true;
             }
         }
 
+        errorMessage = "Too far from civilization!";
         return false;
     }
 }

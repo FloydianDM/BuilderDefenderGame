@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361e3a8e0607e4d0aa93db6763ab4963, type: 3}
   m_Name: StoneHarvester
   m_EditorClassIdentifier: 
-  NameString: StoneHarvester
+  NameString: Stone Harvester
   Prefab: {fileID: 6739349632950571776, guid: ceeb007fb2d6044c58e98ff9c8095fbd, type: 3}
   ResourceGeneratorData:
     TimerMax: 1

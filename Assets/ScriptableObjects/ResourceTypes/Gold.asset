@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Gold
   m_EditorClassIdentifier: 
   NameString: Gold
+  NameShort: G
   Sprite: {fileID: 21300000, guid: 8b744c47cb320b84889a7b8439a78bc2, type: 3}
+  ResourceColor: {r: 0.8490566, g: 0.75814277, b: 0.108134575, a: 1}

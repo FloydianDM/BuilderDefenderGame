@@ -40,13 +40,19 @@ public class BuildingSelectUI : MonoBehaviour
             buttonTransform.GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(_buttonTemplate.position.x + (_buildingIndex * _buttonOffsetAmount), 
                     _buttonTemplate.position.y);
-            buttonTransform.Find("Image").GetComponent<Image>().sprite = buildingType.Sprite;
             
+            buttonTransform.Find("Image").GetComponent<Image>().sprite = buildingType.Sprite;
             buttonTransform.gameObject.SetActive(true);
             buttonTransform.Find("Selected").gameObject.SetActive(false);
+            
             buttonTransform.GetComponent<Button>().onClick.AddListener(
                 () => _buildingManager.SetActiveBuildingType(buildingType));
 
+            MouseEnterExitEvents mouseEnterExitEvents = buttonTransform.GetComponent<MouseEnterExitEvents>();
+            mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipText(
+                    buildingType.NameString + "\n" + buildingType.GetConstructionResourceCostString());
+            mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
+            
             _buildingTypeToButtonTransformDict[buildingType] = buttonTransform;
             
             _buildingIndex++;
@@ -60,13 +66,18 @@ public class BuildingSelectUI : MonoBehaviour
         _cursorTransform.GetComponent<RectTransform>().anchoredPosition =
             new Vector2(_buttonTemplate.position.x + (_buildingIndex * _buttonOffsetAmount), 
                 _buttonTemplate.position.y);
+       
         _cursorTransform.Find("Image").GetComponent<Image>().sprite = _cursorSprite;
         _cursorTransform.Find("Image").GetComponent<RectTransform>().sizeDelta = new Vector2(0, -25);
-        
         _cursorTransform.gameObject.SetActive(true);
         _cursorTransform.Find("Selected").gameObject.SetActive(false);
+        
         _cursorTransform.GetComponent<Button>().onClick.AddListener(
             () => _buildingManager.SetActiveBuildingType(null));
+        
+        MouseEnterExitEvents mouseEnterExitEvents = _cursorTransform.GetComponent<MouseEnterExitEvents>();
+        mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipText("Cursor");
+        mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
 
         _buildingIndex++;
     }

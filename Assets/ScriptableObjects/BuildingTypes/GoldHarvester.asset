@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361e3a8e0607e4d0aa93db6763ab4963, type: 3}
   m_Name: GoldHarvester
   m_EditorClassIdentifier: 
-  NameString: GoldHarvester
+  NameString: Gold Harvester
   Prefab: {fileID: 6739349632950571776, guid: 1a3e6d4ae7c9d4d198e2fbda7f15857d, type: 3}
   ResourceGeneratorData:
     TimerMax: 2
