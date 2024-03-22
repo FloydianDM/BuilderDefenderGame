@@ -15,7 +15,7 @@ public class BuildingSelectUI : MonoBehaviour
     private float _buttonOffsetAmount = 120; // distance between buttons
     private int _buildingIndex; // building order of the buttons
 
-    private void Awake()
+    private void Start()
     {
         SetBuildingButtons();
     }
@@ -49,7 +49,7 @@ public class BuildingSelectUI : MonoBehaviour
                 () => _buildingManager.SetActiveBuildingType(buildingType));
 
             MouseEnterExitEvents mouseEnterExitEvents = buttonTransform.GetComponent<MouseEnterExitEvents>();
-            mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipText(
+            mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipTextForButton(
                     buildingType.NameString + "\n" + buildingType.GetConstructionResourceCostString());
             mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
             
@@ -76,7 +76,7 @@ public class BuildingSelectUI : MonoBehaviour
             () => _buildingManager.SetActiveBuildingType(null));
         
         MouseEnterExitEvents mouseEnterExitEvents = _cursorTransform.GetComponent<MouseEnterExitEvents>();
-        mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipText("Cursor");
+        mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipTextForButton("Cursor");
         mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
 
         _buildingIndex++;

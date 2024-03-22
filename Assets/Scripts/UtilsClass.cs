@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,5 +15,10 @@ public static class UtilsClass
         Vector2 mouseWorldPosition = _mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
         return mouseWorldPosition;
+    }
+
+    public static Vector2 GetRandomDirection()
+    {
+        return new Vector2(Random.Range(-1, 1), Random.Range(-1, 1)).normalized;
     }
 }

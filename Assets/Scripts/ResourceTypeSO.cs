@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/ResourceType")]
 public class ResourceTypeSO : ScriptableObject

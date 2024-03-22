@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class BuildingManager : MonoBehaviour
 {
     [SerializeField] private BuildingSelectUI _buildingSelectUI;
+    [SerializeField] private Building _hqBuilding;
     
     private BuildingTypeListSO _buildingTypeList;
     private BuildingTypeSO _activeBuildingType;
@@ -27,7 +28,15 @@ public class BuildingManager : MonoBehaviour
         inputActions.Player.SelectPreviousBuildingType.performed += SelectPreviousBuilding;
         inputActions.Player.SelectNextBuildingType.performed += SelectNextBuilding;
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Enemy.CreateEnemy(UtilsClass.GetMouseWorldPosition());
+        }
+    }
+
     private void PerformClick(InputAction.CallbackContext context)
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -93,7 +102,7 @@ public class BuildingManager : MonoBehaviour
         
         colliderArray = Physics2D.OverlapCircleAll(position, buildingType.MinConstructionRadius);
 
-        foreach (var col in colliderArray)
+        foreach (Collider2D col in colliderArray)
         {
             // Colliders inside the construction radius
             BuildingTypeHolder buildingTypeHolder = col.GetComponent<BuildingTypeHolder>();
@@ -116,9 +125,10 @@ public class BuildingManager : MonoBehaviour
         
         colliderArray = Physics2D.OverlapCircleAll(position, maxConstructionRadius);
 
-        foreach (var col in colliderArray)
+        foreach (Collider2D col in colliderArray)
         {
             // Colliders inside the construction radius
+           
             BuildingTypeHolder buildingTypeHolder = col.GetComponent<BuildingTypeHolder>();
 
             if (buildingTypeHolder != null)
@@ -130,7 +140,12 @@ public class BuildingManager : MonoBehaviour
             }
         }
 
-        errorMessage = "Too far from civilization!";
+        errorMessage = "Too far from other buildings!";
         return false;
+    }
+
+    public Building GetHqBuilding()
+    {
+        return _hqBuilding;
     }
 }

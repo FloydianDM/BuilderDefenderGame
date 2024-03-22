@@ -70,7 +70,7 @@ public class TooltipUI : MonoBehaviour
         Vector2 padding = new Vector2(6, 6);
         _backgroundRectTransform.sizeDelta = textSize + padding;
     }
-
+    
     public void ShowTooltipText(string text)
     {
         gameObject.SetActive(true);
@@ -87,8 +87,20 @@ public class TooltipUI : MonoBehaviour
         HideTooltip();
     }
 
+    public void ShowTooltipTextForButton(string text)
+    {
+        gameObject.SetActive(true);
+        
+        SetText(text);
+    }
+
     public void HideTooltip()
     {
+        if (!gameObject.activeSelf)
+        {
+            return;
+        }
+        
         gameObject.SetActive(false);
     }
 }
