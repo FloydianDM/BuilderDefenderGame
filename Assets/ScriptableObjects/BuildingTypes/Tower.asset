@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 361e3a8e0607e4d0aa93db6763ab4963, type: 3}
-  m_Name: StoneHarvester
+  m_Name: Tower
   m_EditorClassIdentifier: 
-  NameString: Stone Harvester
-  Prefab: {fileID: 6739349632950571776, guid: ceeb007fb2d6044c58e98ff9c8095fbd, type: 3}
-  HasResourceGeneratorData: 1
+  NameString: Tower
+  Prefab: {fileID: 6739349632950571776, guid: 7cd8301da2e4e4171ac3783230403551, type: 3}
   ResourceGeneratorData:
-    TimerMax: 1
-    ResourceType: {fileID: 11400000, guid: 1afffe2957bee4d30b5c77a558c00edb, type: 2}
-    ResourceCollectionRadius: 5
-    MaxResourceAmount: 4
-  Sprite: {fileID: 21300000, guid: 2263e91ebcd2a254dab5f4caccb4a7af, type: 3}
+    TimerMax: 0
+    ResourceType: {fileID: 0}
+    ResourceCollectionRadius: 0
+    MaxResourceAmount: 0
+  Sprite: {fileID: 21300000, guid: 3a549cd61f4d79e4b996c9978dac641f, type: 3}
   MinConstructionRadius: 7
   ConstructionResourceCostArray:
   - ResourceType: {fileID: 11400000, guid: 8a8a0d87869ff4e7ca09891748163131, type: 2}
+    Amount: 40
+  - ResourceType: {fileID: 11400000, guid: 1afffe2957bee4d30b5c77a558c00edb, type: 2}
     Amount: 30
-  MaxHealthAmount: 100
+  MaxHealthAmount: 70

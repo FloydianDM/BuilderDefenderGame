@@ -6,6 +6,8 @@ public class ResourceManager : MonoBehaviour
 {
    public static ResourceManager Instance { get; private set; }
 
+   [SerializeField] private List<ResourceAmount> _startingResourceAmountList;
+
    private Dictionary<ResourceTypeSO, int> _resourceAmountDictionary = new();
 
    public event Action OnResourceAmountChanged;
@@ -19,6 +21,11 @@ public class ResourceManager : MonoBehaviour
       foreach (var resourceType in resourceTypeList.ResourceTypes)
       {
          _resourceAmountDictionary[resourceType] = 0;
+      }
+
+      foreach (ResourceAmount resourceAmount in _startingResourceAmountList)
+      {
+         AddResource(resourceAmount.ResourceType, resourceAmount.Amount);
       }
    }
 

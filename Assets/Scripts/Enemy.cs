@@ -1,12 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private int _maxEnemyHealthAmount;
+    
     private BuildingManager _buildingManager;
+    private HealthSystem _healthSystem;
     private Transform _targetTransform;
     private Rigidbody2D _enemyRigidbody;
     private float _moveSpeed = 5f;
@@ -14,10 +15,20 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _buildingManager = FindFirstObjectByType<BuildingManager>();
+        _healthSystem = GetComponent<HealthSystem>();
+        
         _targetTransform = _buildingManager.GetHqBuilding().transform; // Set target to HQ before finding any potential
+        
+        _healthSystem.SetMaxHealthAmount(_maxEnemyHealthAmount, true);
+        _healthSystem.OnDie += DestroyEnemy;
         
         LookForTargets();
         _enemyRigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void DestroyEnemy()
+    {
+        Destroy(gameObject);
     }
 
     private void FixedUpdate()

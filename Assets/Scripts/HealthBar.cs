@@ -8,16 +8,16 @@ public class HealthBar : MonoBehaviour
     
     private void Start()
     {
-        _healthSystem.OnDamage += HandleHealthBarUpdate;
         HandleHealthBarUpdate();
-        HideHealthBar(_healthSystem.GetHealthAmountNormalized() == 1);
+        HideHealthBar(true);
+        _healthSystem.OnDamage += HandleHealthBarUpdate;
     }
     
     private void HandleHealthBarUpdate()
     {
         float barValue = _healthSystem.GetHealthAmountNormalized();
         _healthBar.fillAmount = barValue;
-        HideHealthBar(_healthSystem.GetHealthAmountNormalized() == 1);
+        HideHealthBar((int)_healthSystem.GetHealthAmountNormalized() == 1);
     }
 
     private void HideHealthBar(bool isFullHealth)
