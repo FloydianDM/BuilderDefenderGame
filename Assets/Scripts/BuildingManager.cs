@@ -29,14 +29,6 @@ public class BuildingManager : MonoBehaviour
         inputActions.Player.SelectNextBuildingType.performed += SelectNextBuilding;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Enemy.CreateEnemy(UtilsClass.GetMouseWorldPosition());
-        }
-    }
-
     private void PerformClick(InputAction.CallbackContext context)
     {
         if (EventSystem.current.IsPointerOverGameObject())

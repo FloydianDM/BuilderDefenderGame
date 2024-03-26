@@ -93,11 +93,10 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public static Enemy CreateEnemy(Vector2 spawnPosition)
+    public GameObject CreateEnemy(GameObject enemyPrefab, Vector2 spawnPosition)
     {
-        Transform enemyPrefab = Resources.Load<Transform>("EnemyPrefab");
-        Transform enemyTransform = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-        return enemyTransform.GetComponent<Enemy>();
+        return enemy;
     }
 }
