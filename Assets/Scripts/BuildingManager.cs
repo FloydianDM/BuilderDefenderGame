@@ -1,5 +1,4 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -55,8 +54,9 @@ public class BuildingManager : MonoBehaviour
             
             return;
         }
-
-        Instantiate(_activeBuildingType.Prefab, UtilsClass.GetMouseWorldPosition(), quaternion.identity);
+        
+        BuildingConstruction.CreateBuildingConstruction(UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
+        
         ResourceManager.Instance.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }
 

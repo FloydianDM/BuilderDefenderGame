@@ -40,6 +40,7 @@ public class EnemyWaveManager : MonoBehaviour
             
             int spawnIndex = Random.Range(0, _spawnPoints.Length); // Select random spawn point
             Transform spawnPoint = _spawnPoints[spawnIndex];
+            
             _nextWaveSpawnPoint.position = spawnPoint.position; // for spawn point indicator
             OnEnemyWavePositionInitialised?.Invoke(_nextWaveSpawnPoint.position);
             
