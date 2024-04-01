@@ -12,12 +12,13 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float _spawnWaveTimer = 10f;
 
+    private SpawnState _spawnState;
+    private BuildingManager _buildingManager;
     private Enemy _enemy;
     private float _enemySpawnTimer;
-    private int _enemyCountInWave = 3;
-    private int _waveNumber;
+    private int _enemyCountInWave = 30;
     private int _remainingTimeForNextWave = 3;
-    private SpawnState _spawnState;
+    public int WaveNumber { get; private set; }
 
     public event Action<int> OnEnemyWaveNumberChanged;
     public event Action<int> OnEnemyNextWaveRemainingTimeChanged;
@@ -28,15 +29,19 @@ public class EnemyWaveManager : MonoBehaviour
     {
         _spawnState = SpawnState.Spawn;
         _enemy = _enemyPrefab.GetComponent<Enemy>();
+        _buildingManager = FindFirstObjectByType<BuildingManager>();
+        
+        _buildingManager.OnHQBuildingDown += StopEnemySpawner;
         
         StartCoroutine(SpawnEnemyWave());
     }
     
+
     private IEnumerator SpawnEnemyWave()
     {
         while (_spawnState == SpawnState.Spawn)
         {
-            OnEnemyWaveNumberChanged?.Invoke(_waveNumber + 1);
+            OnEnemyWaveNumberChanged?.Invoke(WaveNumber + 1);
             
             int spawnIndex = Random.Range(0, _spawnPoints.Length); // Select random spawn point
             Transform spawnPoint = _spawnPoints[spawnIndex];
@@ -59,8 +64,8 @@ public class EnemyWaveManager : MonoBehaviour
             }
             
             OnWaveFinished?.Invoke();
-            _waveNumber++;
-            _enemyCountInWave += _waveNumber;
+            WaveNumber++;
+            _enemyCountInWave += WaveNumber;
         }
     }
 
@@ -72,6 +77,18 @@ public class EnemyWaveManager : MonoBehaviour
         _enemySpawnTimer = Random.Range(0, 0.2f);
 
         yield return new WaitForSeconds(_enemySpawnTimer);
+    }
+    
+    private void StopEnemySpawner()
+    {
+        _spawnState = SpawnState.Wait;
+
+        Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.DestroyEnemy();
+        }
     }
     
     public enum SpawnState

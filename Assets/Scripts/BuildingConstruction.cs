@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BuildingConstruction : MonoBehaviour
 {
@@ -8,10 +6,16 @@ public class BuildingConstruction : MonoBehaviour
     private float _constructionTimer;
     private BuildingTypeSO _buildingType;
     private BoxCollider2D _boxCollider;
+    private BuildingTypeHolder _buildingTypeHolder;
+    private Material _buildingConstructionMaterial;
+    private int _progressShaderID;
 
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider2D>();
+        _buildingTypeHolder = GetComponent<BuildingTypeHolder>();
+        _buildingConstructionMaterial = GetComponentInChildren<SpriteRenderer>().material;
+        _progressShaderID = Shader.PropertyToID("_Progress");
     }
 
     private void Update()
@@ -25,6 +29,7 @@ public class BuildingConstruction : MonoBehaviour
         _constructionTimer = _maxConstructionTimer;
         
         _buildingType = buildingType;
+        _buildingTypeHolder.BuildingType = buildingType;
         
         _boxCollider.offset = buildingType.Prefab.GetComponent<BoxCollider2D>().offset;
         _boxCollider.size = buildingType.Prefab.GetComponent<BoxCollider2D>().size;
@@ -33,6 +38,7 @@ public class BuildingConstruction : MonoBehaviour
     private void ConstructBuilding()
     {
         _constructionTimer -= Time.deltaTime;
+        _buildingConstructionMaterial.SetFloat(_progressShaderID, 1 - GetConstructionTimerRatio());
 
         if (_constructionTimer <= 0)
         {
@@ -50,7 +56,7 @@ public class BuildingConstruction : MonoBehaviour
     {
         Transform buildingConstructionPrefab = Resources.Load<Transform>("BuildingConstructionPrefab");
         buildingConstructionPrefab.GetComponentInChildren<SpriteRenderer>().sprite = buildingType.Sprite;
-        Transform buildingConstructionTransform = 
+        Transform buildingConstructionTransform =
             Instantiate(buildingConstructionPrefab, spawnPosition, Quaternion.identity);
 
         BuildingConstruction buildingConstruction = buildingConstructionTransform.GetComponent<BuildingConstruction>();

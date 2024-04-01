@@ -12,6 +12,7 @@ public class BuildingManager : MonoBehaviour
     private BuildingTypeSO _activeBuildingType;
 
     public event Action<BuildingTypeSO> OnActiveBuildingChanged;
+    public event Action OnHQBuildingDown; 
 
     private void Awake()
     {
@@ -26,8 +27,10 @@ public class BuildingManager : MonoBehaviour
         inputActions.Player.Select.performed += PerformClick;
         inputActions.Player.SelectPreviousBuildingType.performed += SelectPreviousBuilding;
         inputActions.Player.SelectNextBuildingType.performed += SelectNextBuilding;
+        
+        GetHQHealth().OnGameOver += HandleHQBuildingDown;
     }
-
+    
     private void PerformClick(InputAction.CallbackContext context)
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -135,9 +138,21 @@ public class BuildingManager : MonoBehaviour
         errorMessage = "Too far from other buildings!";
         return false;
     }
+    
+    private void HandleHQBuildingDown()
+    {
+        OnHQBuildingDown?.Invoke();
+    }
 
     public Building GetHqBuilding()
     {
         return _hqBuilding;
+    }
+
+    private HealthSystem GetHQHealth()
+    {
+        HealthSystem hqHealth = _hqBuilding.GetComponent<HealthSystem>();
+
+        return hqHealth;
     }
 }

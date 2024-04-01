@@ -52,13 +52,20 @@ public class ArrowProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.TryGetComponent(out Tower tower))
+        {
+            // Ignore tower collider
+
+            return;
+        }
+        
         if (other.TryGetComponent(out Enemy enemy))
         {
             // Hit an enemy
             
             enemy.GetComponent<HealthSystem>().TakeDamage(_damage);
         }
-
+        
         Destroy(gameObject);
     }
     

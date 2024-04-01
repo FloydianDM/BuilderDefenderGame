@@ -7,7 +7,7 @@ public class Tower : MonoBehaviour
     
     private Enemy _targetEnemy;
     private float _detectionRate = 1f;
-    private float _shootingRate = 1f;
+    private float _shootingRate = 0.5f;
 
     private void Start()
     {

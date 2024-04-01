@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 34a2e2cd25e194b8488df613b98802f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 8850832450736920377}
   - component: {fileID: 2599884434285238869}
   - component: {fileID: 1974606887684304778}
+  - component: {fileID: -7640232353501867533}
   m_Layer: 0
   m_Name: BuildingConstructionPrefab
   m_TagString: Untagged
@@ -193,6 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71c8f07a16454bfb9763519225a36bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7640232353501867533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2227948040856072739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6d6654a81bd4fd4bac22b1671809cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingType: {fileID: 0}
 --- !u!1001 &6486646681387906425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,7 +281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3049206649456396898, guid: 4556df27f4047447d82fff0c13e9004d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3049206649456396898, guid: 4556df27f4047447d82fff0c13e9004d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -280,6 +294,10 @@ PrefabInstance:
     - target: {fileID: 3049206649456396898, guid: 4556df27f4047447d82fff0c13e9004d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319392933616377833, guid: 4556df27f4047447d82fff0c13e9004d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1098389995
       objectReference: {fileID: 0}
     - target: {fileID: 6166866484492510655, guid: 4556df27f4047447d82fff0c13e9004d, type: 3}
       propertyPath: m_Name

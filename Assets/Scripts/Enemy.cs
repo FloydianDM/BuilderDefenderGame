@@ -17,18 +17,15 @@ public class Enemy : MonoBehaviour
         _buildingManager = FindFirstObjectByType<BuildingManager>();
         _healthSystem = GetComponent<HealthSystem>();
         
-        _targetTransform = _buildingManager.GetHqBuilding().transform; // Set target to HQ before finding any potential
+        // Set target to HQ before finding any potential if HQ exists
+
+        _targetTransform = _buildingManager.GetHqBuilding().transform;
         
         _healthSystem.SetMaxHealthAmount(_maxEnemyHealthAmount, true);
         _healthSystem.OnDie += DestroyEnemy;
         
         LookForTargets();
         _enemyRigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void DestroyEnemy()
-    {
-        Destroy(gameObject);
     }
 
     private void FixedUpdate()
@@ -38,6 +35,11 @@ public class Enemy : MonoBehaviour
     
     private void LookForTargets()
     {
+        if (_buildingManager.GetHqBuilding().transform == null)
+        {
+            return;
+        }
+        
         float maxTargetRadius = 10f;
 
         Collider2D[] colliderArray = Physics2D.OverlapCircleAll(transform.position, maxTargetRadius);
@@ -64,6 +66,11 @@ public class Enemy : MonoBehaviour
         if (potentialTargetList.Count == 0)
         {
             // Don't look for the targets, attack to the HQ
+
+            if (_buildingManager.GetHqBuilding().transform != null)
+            {
+                _targetTransform = _buildingManager.GetHqBuilding().transform;
+            }
                 
             return;
         }
@@ -78,6 +85,11 @@ public class Enemy : MonoBehaviour
 
     private void MoveEnemy()
     {
+        if (_buildingManager.GetHqBuilding().transform == null)
+        {
+            return;
+        }
+        
         Vector2 moveDirection = (_targetTransform.position - transform.position).normalized;
         _enemyRigidbody.velocity = _moveSpeed * moveDirection;
     }
@@ -90,6 +102,12 @@ public class Enemy : MonoBehaviour
         }
         
         building.GetComponent<HealthSystem>().TakeDamage(10);
+        
+        DestroyEnemy();
+    }
+    
+    public void DestroyEnemy()
+    {
         Destroy(gameObject);
     }
 
