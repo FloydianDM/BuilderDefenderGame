@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 911be4113ef67354dacd8b3542ff497a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d921b7cb87c53d94cb0ec38875bfb4ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3214333203338886638}
-        m_TargetAssemblyTypeName: BuildingDemolishButton, Assembly-CSharp
-        m_MethodName: DemolishBuilding
+      - m_Target: {fileID: 8054441234128579100}
+        m_TargetAssemblyTypeName: BuildingRepairButton, Assembly-CSharp
+        m_MethodName: RepairBuilding
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -144,9 +144,9 @@ GameObject:
   - component: {fileID: 931825262555162544}
   - component: {fileID: 6218045819254928218}
   - component: {fileID: 2724006362415466036}
-  - component: {fileID: 3214333203338886638}
+  - component: {fileID: 8054441234128579100}
   m_Layer: 5
-  m_Name: DemolishButtonUIPrefab
+  m_Name: RepairButtonUIPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2724006362415466036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3214333203338886638
+--- !u!114 &8054441234128579100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,10 +244,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6146408939685131498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ca820f5fd46f40ccaeedc6375487e04, type: 3}
+  m_Script: {fileID: 11500000, guid: 4526f921c21754dfaba2c0ef466ba924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _building: {fileID: 0}
+  _healthSystem: {fileID: 0}
 --- !u!1 &8011766442799281366
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8490566, g: 0.25231397, b: 0.25231397, a: 1}
+  m_Color: {r: 0.29319593, g: 0.8509804, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

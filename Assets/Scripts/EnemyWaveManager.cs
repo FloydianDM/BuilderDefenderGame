@@ -16,7 +16,7 @@ public class EnemyWaveManager : MonoBehaviour
     private BuildingManager _buildingManager;
     private Enemy _enemy;
     private float _enemySpawnTimer;
-    private int _enemyCountInWave = 30;
+    private int _enemyCountInWave = 5;
     private int _remainingTimeForNextWave = 3;
     public int WaveNumber { get; private set; }
 

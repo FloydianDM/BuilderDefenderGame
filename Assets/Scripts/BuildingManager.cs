@@ -7,7 +7,9 @@ public class BuildingManager : MonoBehaviour
 {
     [SerializeField] private BuildingSelectUI _buildingSelectUI;
     [SerializeField] private Building _hqBuilding;
-    
+    [SerializeField] private ResourceManager _resourceManager;
+
+    private TooltipUI _tooltipUI;
     private BuildingTypeListSO _buildingTypeList;
     private BuildingTypeSO _activeBuildingType;
 
@@ -21,6 +23,8 @@ public class BuildingManager : MonoBehaviour
 
     private void Start()
     {
+        _tooltipUI = FindFirstObjectByType<TooltipUI>();
+        
         BuilderDefenderGameInputActions inputActions = new();
         
         inputActions.Player.Enable();
@@ -43,9 +47,9 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (!ResourceManager.Instance.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
+        if (!_resourceManager.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
         {
-            TooltipUI.Instance.ShowTooltipText("Cannot afford the building! " + 
+            _tooltipUI.ShowTooltipText("Cannot afford the building! " + 
                                                _activeBuildingType.GetConstructionResourceCostString());
             
             return;
@@ -53,14 +57,14 @@ public class BuildingManager : MonoBehaviour
 
         if (!CanSpawnBuilding(_activeBuildingType, UtilsClass.GetMouseWorldPosition(), out string errorMessage))
         {
-            TooltipUI.Instance.ShowTooltipText(errorMessage);
+            _tooltipUI.ShowTooltipText(errorMessage);
             
             return;
         }
         
         BuildingConstruction.CreateBuildingConstruction(UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
         
-        ResourceManager.Instance.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
+        _resourceManager.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }
 
     private void SelectPreviousBuilding(InputAction.CallbackContext context)

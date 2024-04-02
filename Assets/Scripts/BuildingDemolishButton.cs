@@ -18,7 +18,7 @@ public class BuildingDemolishButton : MonoBehaviour
 
         foreach (ResourceAmount resourceCost in resourceCostArray)
         {
-            ResourceManager.Instance.AddResource(
+            FindAnyObjectByType<ResourceManager>().AddResource(
                 resourceCost.ResourceType, Mathf.FloorToInt((float)resourceCost.Amount / 2));
         }
     }

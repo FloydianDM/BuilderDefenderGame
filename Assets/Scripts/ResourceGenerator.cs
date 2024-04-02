@@ -7,6 +7,7 @@ public class ResourceGenerator : MonoBehaviour
    private float _timer;
    private float _timerMax;
    private int _maxResourceAmount;
+   private ResourceManager _resourceManager;
 
    public event Action OnGenerationRateChanged;
    public event Action OnTimeChanged;
@@ -20,6 +21,8 @@ public class ResourceGenerator : MonoBehaviour
 
    private void Start()
    {
+      _resourceManager = FindAnyObjectByType<ResourceManager>();
+      
       int nearbyResourceAmount = GetNearbyResourceAmount(_resourceGeneratorData, transform.position);
 
       if (nearbyResourceAmount == 0)
@@ -74,7 +77,7 @@ public class ResourceGenerator : MonoBehaviour
          _timer = 0;
          
          // add resource
-         ResourceManager.Instance.AddResource(_resourceGeneratorData.ResourceType, 1);
+         _resourceManager.AddResource(_resourceGeneratorData.ResourceType, 1);
       }
    }
 

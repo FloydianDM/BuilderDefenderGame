@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ResourcesUI : MonoBehaviour
 {
     [SerializeField] private Transform _resourceTemplate;
+    [SerializeField] private ResourceManager _resourceManager;
 
     private ResourceTypeListSO _resourcesTypeList;
     private Dictionary<ResourceTypeSO, Transform> _resourceTypeToTransformDict = new();
@@ -18,7 +19,7 @@ public class ResourcesUI : MonoBehaviour
     private void Start()
     {
         UpdateResourceAmount();
-        ResourceManager.Instance.OnResourceAmountChanged += UpdateResourceAmount;
+        _resourceManager.OnResourceAmountChanged += UpdateResourceAmount;
     }
 
     private void SetResourceUITypes()
@@ -55,7 +56,7 @@ public class ResourcesUI : MonoBehaviour
         foreach (var resourceType in _resourcesTypeList.ResourceTypes)
         {
             Transform resourceTransform = _resourceTypeToTransformDict[resourceType];
-            int resourceAmount = ResourceManager.Instance.GetResourceAmount(resourceType);
+            int resourceAmount = _resourceManager.GetResourceAmount(resourceType);
 
             resourceTransform.Find("Text").GetComponent<TextMeshProUGUI>().text = resourceAmount.ToString();
         }

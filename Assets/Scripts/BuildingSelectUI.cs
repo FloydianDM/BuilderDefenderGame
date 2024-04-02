@@ -8,7 +8,8 @@ public class BuildingSelectUI : MonoBehaviour
     [SerializeField] private Transform _buttonTemplate;
     [SerializeField] private BuildingManager _buildingManager;
     [SerializeField] private List<BuildingTypeSO> _ignoredBuildingTypeList; // for the buildings that are built in the scene
-
+    [SerializeField] private TooltipUI _tooltipUI;
+    
     private BuildingTypeListSO _buildingTypeList;
     private Dictionary<BuildingTypeSO, Transform> _buildingTypeToButtonTransformDict = new();
     private Transform _cursorTransform;
@@ -49,9 +50,9 @@ public class BuildingSelectUI : MonoBehaviour
                 () => _buildingManager.SetActiveBuildingType(buildingType));
 
             MouseEnterExitEvents mouseEnterExitEvents = buttonTransform.GetComponent<MouseEnterExitEvents>();
-            mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipTextForButton(
+            mouseEnterExitEvents.OnMouseEnter += () => _tooltipUI.ShowTooltipTextForButton(
                     buildingType.NameString + "\n" + buildingType.GetConstructionResourceCostString());
-            mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
+            mouseEnterExitEvents.OnMouseExit += _tooltipUI.HideTooltip;
             
             _buildingTypeToButtonTransformDict[buildingType] = buttonTransform;
             
@@ -76,8 +77,8 @@ public class BuildingSelectUI : MonoBehaviour
             () => _buildingManager.SetActiveBuildingType(null));
         
         MouseEnterExitEvents mouseEnterExitEvents = _cursorTransform.GetComponent<MouseEnterExitEvents>();
-        mouseEnterExitEvents.OnMouseEnter += () => TooltipUI.Instance.ShowTooltipTextForButton("Cursor");
-        mouseEnterExitEvents.OnMouseExit += TooltipUI.Instance.HideTooltip;
+        mouseEnterExitEvents.OnMouseEnter += () => _tooltipUI.ShowTooltipTextForButton("Cursor");
+        mouseEnterExitEvents.OnMouseExit += _tooltipUI.HideTooltip;
 
         _buildingIndex++;
     }

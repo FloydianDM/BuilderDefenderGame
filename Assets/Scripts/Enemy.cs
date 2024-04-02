@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _maxEnemyHealthAmount;
-    
+
     private BuildingManager _buildingManager;
     private HealthSystem _healthSystem;
     private Transform _targetTransform;
@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     
     private void Start()
     {
-        _buildingManager = FindFirstObjectByType<BuildingManager>();
+        _buildingManager = FindAnyObjectByType<BuildingManager>();
         _healthSystem = GetComponent<HealthSystem>();
         
         // Set target to HQ before finding any potential if HQ exists

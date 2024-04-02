@@ -5,32 +5,11 @@ using UnityEngine.InputSystem;
 
 public class TooltipUI : MonoBehaviour
 {
-    public static TooltipUI Instance;
-    
     [SerializeField] private TextMeshProUGUI _tooltipText;
     [SerializeField] private RectTransform _backgroundRectTransform;
     [SerializeField] private RectTransform _canvasRectTransform;
     
     private RectTransform _rectTransform;
-
-    private void Awake()
-    {
-        ManageSingleton();
-    }
-
-    private void ManageSingleton()
-    {
-        if (Instance != null)
-        {
-            gameObject.SetActive(false);
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-    }
 
     private void Start()
     {

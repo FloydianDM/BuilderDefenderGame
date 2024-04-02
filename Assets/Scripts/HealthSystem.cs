@@ -5,17 +5,12 @@ public class HealthSystem : MonoBehaviour
 {
    private int _maxHealthAmount;
    private int _healthAmount;
-   private GameOverUI _gameOverUI;
 
-   public event Action OnDamage;
+   public event Action<bool> OnDamage;
    public event Action OnDie;
    public event Action OnGameOver;
-
-   private void Start()
-   {
-      _gameOverUI = FindFirstObjectByType<GameOverUI>();
-   }
-
+   public event Action<bool> OnHeal;
+   
    public void SetMaxHealthAmount(int maxHealthAmount, bool shouldUpdateHealthAmount)
    {
       _maxHealthAmount = maxHealthAmount;
@@ -30,26 +25,36 @@ public class HealthSystem : MonoBehaviour
    {
       if (_healthAmount <= 0)
       {
-         OnDie?.Invoke();
-         
          if (gameObject.CompareTag("HQ"))
          {
             // Game Over
+
+            GameOverUI gameOverUI = FindAnyObjectByType<GameOverUI>(FindObjectsInactive.Include);
             
-            _gameOverUI.ShowGameOverUI();
+            gameOverUI.ShowGameOverUI();
             
             OnGameOver?.Invoke();
          }
+         
+         OnDie?.Invoke();
       }
       else
       {
          _healthAmount -= damageAmount; 
-         OnDamage?.Invoke();
+         OnDamage?.Invoke(false);
       }
+   }
+   
+   public void Heal()
+   {
+      _healthAmount = _maxHealthAmount;
+      OnHeal?.Invoke(true);
    }
 
    public float GetHealthAmountNormalized()
    {
       return (float)_healthAmount / _maxHealthAmount;
    }
+
+   
 }

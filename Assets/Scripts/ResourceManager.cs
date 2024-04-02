@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
-   public static ResourceManager Instance { get; private set; }
-
    [SerializeField] private List<ResourceAmount> _startingResourceAmountList;
 
    private Dictionary<ResourceTypeSO, int> _resourceAmountDictionary = new();
@@ -14,7 +12,6 @@ public class ResourceManager : MonoBehaviour
 
    private void Awake()
    {
-      ManageSingleton();
       
       ResourceTypeListSO resourceTypeList = Resources.Load<ResourceTypeListSO>("ResourceTypes");
 
@@ -26,20 +23,6 @@ public class ResourceManager : MonoBehaviour
       foreach (ResourceAmount resourceAmount in _startingResourceAmountList)
       {
          AddResource(resourceAmount.ResourceType, resourceAmount.Amount);
-      }
-   }
-
-   private void ManageSingleton()
-   {
-      if (Instance != null)
-      {
-         gameObject.SetActive(false);
-         Destroy(this);
-      }
-      else
-      {
-         Instance = this;
-         DontDestroyOnLoad(this);
       }
    }
 
