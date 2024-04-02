@@ -3,23 +3,45 @@ using UnityEngine;
 public class BuildingRepairButton : MonoBehaviour
 {
     [SerializeField] private HealthSystem _healthSystem;
+    [SerializeField] private ResourceTypeSO _goldResource;
+
+    private ResourceManager _resourceManager;
+    private TooltipUI _tooltipUI;
+    
+    private void Start()
+    {
+        _resourceManager = FindAnyObjectByType<ResourceManager>();
+        _tooltipUI = FindAnyObjectByType<TooltipUI>();
+    }
 
     public void RepairBuilding()
     {
         SpendSomeResources();
-        _healthSystem.Heal();
+        
     }
 
     private void SpendSomeResources()
     {
-        BuildingTypeHolder buildingTypeHolder = _healthSystem.GetComponent<BuildingTypeHolder>();
-        BuildingTypeSO buildingType = buildingTypeHolder.BuildingType;
-        ResourceAmount[] resourceCostArray = buildingType.ConstructionResourceCostArray;
+        int lostHealth = _healthSystem.MaxHealthAmount - _healthSystem.HealthAmount;
 
-        foreach (ResourceAmount resourceCost in resourceCostArray)
+        int repairCost = Mathf.FloorToInt((float)lostHealth / 2);
+
+        var repairResourceAmountArray = new ResourceAmount[1];
+
+        repairResourceAmountArray[0] = new ResourceAmount
         {
-            FindAnyObjectByType<ResourceManager>().AddResource(
-                resourceCost.ResourceType, -Mathf.FloorToInt((float)resourceCost.Amount / 2));
+            ResourceType = _goldResource,
+            Amount = repairCost
+        };
+
+        if (!_resourceManager.CanAfford(repairResourceAmountArray))
+        {
+            _tooltipUI.ShowTooltipText("Cannot afford the repairment!");
+            
+            return;
         }
+        
+        _healthSystem.Heal();
+        _resourceManager.SpendResources(repairResourceAmountArray);
     }
 }

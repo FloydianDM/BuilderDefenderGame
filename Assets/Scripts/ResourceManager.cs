@@ -12,7 +12,6 @@ public class ResourceManager : MonoBehaviour
 
    private void Awake()
    {
-      
       ResourceTypeListSO resourceTypeList = Resources.Load<ResourceTypeListSO>("ResourceTypes");
 
       foreach (var resourceType in resourceTypeList.ResourceTypes)

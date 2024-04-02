@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
 {
-   private int _maxHealthAmount;
-   private int _healthAmount;
+   public int MaxHealthAmount { get; private set; }
+   public int HealthAmount { get; private set; }
 
    public event Action<bool> OnDamage;
    public event Action OnDie;
@@ -13,17 +13,17 @@ public class HealthSystem : MonoBehaviour
    
    public void SetMaxHealthAmount(int maxHealthAmount, bool shouldUpdateHealthAmount)
    {
-      _maxHealthAmount = maxHealthAmount;
+      MaxHealthAmount = maxHealthAmount;
 
       if (shouldUpdateHealthAmount)
       {
-         _healthAmount = _maxHealthAmount;
+         HealthAmount = MaxHealthAmount;
       }
    }
 
    public void TakeDamage(int damageAmount)
    {
-      if (_healthAmount <= 0)
+      if (HealthAmount <= 0)
       {
          if (gameObject.CompareTag("HQ"))
          {
@@ -40,20 +40,20 @@ public class HealthSystem : MonoBehaviour
       }
       else
       {
-         _healthAmount -= damageAmount; 
+         HealthAmount -= damageAmount; 
          OnDamage?.Invoke(false);
       }
    }
    
    public void Heal()
    {
-      _healthAmount = _maxHealthAmount;
+      HealthAmount = MaxHealthAmount;
       OnHeal?.Invoke(true);
    }
 
    public float GetHealthAmountNormalized()
    {
-      return (float)_healthAmount / _maxHealthAmount;
+      return (float)HealthAmount / MaxHealthAmount;
    }
 
    
