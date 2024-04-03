@@ -11,7 +11,7 @@ public class BuildingRepairButton : MonoBehaviour
     private void Start()
     {
         _resourceManager = FindAnyObjectByType<ResourceManager>();
-        _tooltipUI = FindAnyObjectByType<TooltipUI>();
+        _tooltipUI = FindAnyObjectByType<TooltipUI>(FindObjectsInactive.Include);
     }
 
     public void RepairBuilding()

@@ -63,6 +63,7 @@ public class ArrowProjectile : MonoBehaviour
         {
             // Hit an enemy
             
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyHit);
             enemy.GetComponent<HealthSystem>().TakeDamage(_damage);
         }
         

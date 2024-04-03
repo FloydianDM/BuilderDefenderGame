@@ -103,11 +103,12 @@ public class Enemy : MonoBehaviour
         
         building.GetComponent<HealthSystem>().TakeDamage(10);
         
-        DestroyEnemy();
+        Destroy(gameObject);
     }
     
     public void DestroyEnemy()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyDie);
         Destroy(gameObject);
     }
 

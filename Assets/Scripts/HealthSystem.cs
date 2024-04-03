@@ -28,9 +28,9 @@ public class HealthSystem : MonoBehaviour
          if (gameObject.CompareTag("HQ"))
          {
             // Game Over
-
-            GameOverUI gameOverUI = FindAnyObjectByType<GameOverUI>(FindObjectsInactive.Include);
             
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.GameOver);
+            GameOverUI gameOverUI = FindAnyObjectByType<GameOverUI>(FindObjectsInactive.Include);
             gameOverUI.ShowGameOverUI();
             
             OnGameOver?.Invoke();

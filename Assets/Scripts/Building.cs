@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -33,6 +34,7 @@ public class Building : MonoBehaviour
 
     private void DestroyBuilding()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingDestroyed);
         Destroy(gameObject);
     }
 
@@ -67,6 +69,7 @@ public class Building : MonoBehaviour
 
         if (shouldShow)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingDamaged);
             shouldShow = _canRepair;
         }
         

@@ -62,8 +62,10 @@ public class BuildingManager : MonoBehaviour
             return;
         }
         
-        BuildingConstruction.CreateBuildingConstruction(UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
+        // Create building
         
+        BuildingConstruction.CreateBuildingConstruction(UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingPlaced);
         _resourceManager.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }
 

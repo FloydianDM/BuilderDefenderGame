@@ -35,12 +35,12 @@ public class EnemyWaveManager : MonoBehaviour
         
         StartCoroutine(SpawnEnemyWave());
     }
-    
 
     private IEnumerator SpawnEnemyWave()
     {
         while (_spawnState == SpawnState.Spawn)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyWaveStarting);
             OnEnemyWaveNumberChanged?.Invoke(WaveNumber + 1);
             
             int spawnIndex = Random.Range(0, _spawnPoints.Length); // Select random spawn point
