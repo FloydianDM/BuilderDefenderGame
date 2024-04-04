@@ -1,14 +1,14 @@
+using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour
 {
-    [SerializeField] private Button _mainMenuButton;
     [SerializeField] private TextMeshProUGUI _sFXVolumeText;
     [SerializeField] private TextMeshProUGUI _musicVolumeText;
     [SerializeField] private AudioManager _audioManager;
+
+    public event Action OnEdgeScrollingToggleChanged; 
 
     private void Awake()
     {
@@ -32,6 +32,11 @@ public class OptionsUI : MonoBehaviour
         {
             Time.timeScale = 1f; // Resume game
         }
+    }
+
+    public void ToggleEdgeScrolling()
+    {
+        OnEdgeScrollingToggleChanged?.Invoke();
     }
 
     public void DecreaseSFX()
@@ -63,5 +68,4 @@ public class OptionsUI : MonoBehaviour
         _sFXVolumeText.text = Mathf.RoundToInt(AudioManager.Instance.SFXVolume * 10).ToString();
         _musicVolumeText.text = Mathf.RoundToInt(AudioManager.Instance.MusicVolume * 10).ToString();
     }
-    
 }

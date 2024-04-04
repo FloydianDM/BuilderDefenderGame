@@ -10,6 +10,7 @@ public class HealthSystem : MonoBehaviour
    public event Action OnDie;
    public event Action OnGameOver;
    public event Action<bool> OnHeal;
+   public event Action OnHealthAmountMaxChanged;
    
    public void SetMaxHealthAmount(int maxHealthAmount, bool shouldUpdateHealthAmount)
    {
@@ -19,6 +20,8 @@ public class HealthSystem : MonoBehaviour
       {
          HealthAmount = MaxHealthAmount;
       }
+
+      OnHealthAmountMaxChanged?.Invoke();
    }
 
    public void TakeDamage(int damageAmount)
