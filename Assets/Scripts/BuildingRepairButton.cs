@@ -17,7 +17,6 @@ public class BuildingRepairButton : MonoBehaviour
     public void RepairBuilding()
     {
         SpendSomeResources();
-        
     }
 
     private void SpendSomeResources()

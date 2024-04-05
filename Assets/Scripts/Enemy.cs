@@ -1,9 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private ParticleSystem _dieParticleSystem;
+    [SerializeField] private SpriteRenderer _enemySpriteRenderer;
+    [SerializeField] private Collider2D _enemyCollider2D;
+    [Header ("Settings")]
     [SerializeField] private int _maxEnemyHealthAmount;
 
     private BuildingManager _buildingManager;
@@ -102,14 +108,17 @@ public class Enemy : MonoBehaviour
         }
         
         building.GetComponent<HealthSystem>().TakeDamage(10);
-        
         Destroy(gameObject);
     }
     
     public void DestroyEnemy()
     {
         AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyDie);
-        Destroy(gameObject);
+        _dieParticleSystem.Play();
+        _enemyCollider2D.enabled = false; // prevent crash damage before exploding
+        _enemySpriteRenderer.enabled = false;
+        
+        Destroy(gameObject, 0.2f);
     }
 
     public GameObject CreateEnemy(GameObject enemyPrefab, Vector2 spawnPosition)

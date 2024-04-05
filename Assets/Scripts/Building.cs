@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Building : MonoBehaviour
     
     private BuildingTypeHolder _buildingType;
     private HealthSystem _healthSystem;
+    private ParticleSystem _buildingDestroyedParticles;
     private bool _canRepair;
 
     private void Start()
@@ -24,6 +26,7 @@ public class Building : MonoBehaviour
         
         _buildingType = GetComponent<BuildingTypeHolder>();
         _healthSystem = GetComponent<HealthSystem>();
+        _buildingDestroyedParticles = GetComponentInChildren<ParticleSystem>();
 
         _healthSystem.SetMaxHealthAmount(_buildingType.BuildingType.MaxHealthAmount, true);
         
@@ -35,7 +38,9 @@ public class Building : MonoBehaviour
     private void DestroyBuilding()
     {
         AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingDestroyed);
-        Destroy(gameObject);
+        _buildingDestroyedParticles.Play();
+        
+        Destroy(gameObject, 0.5f);
     }
 
     private void OnMouseEnter()

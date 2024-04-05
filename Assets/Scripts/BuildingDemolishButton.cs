@@ -7,7 +7,7 @@ public class BuildingDemolishButton : MonoBehaviour
     public void DemolishBuilding()
     {
         GatherSomeResources();
-        Destroy(_building.gameObject);
+        Destroy(_building.gameObject, 0.1f);
     }
 
     private void GatherSomeResources()

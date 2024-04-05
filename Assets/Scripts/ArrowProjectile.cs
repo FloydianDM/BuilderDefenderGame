@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 public class ArrowProjectile : MonoBehaviour
@@ -34,9 +35,9 @@ public class ArrowProjectile : MonoBehaviour
         
             Vector3 moveDirection = (enemyTransform.position - arrowTransform.position).normalized;
             _arrowSprite.eulerAngles = new Vector3(0, 0, UtilsClass.GetAngleFromVector(moveDirection));
-            _recordedMoveDirection = moveDirection; // use this if enemy was destroyed while arrow was moving 
+            _recordedMoveDirection = moveDirection; // use this value if enemy destroyed while arrow was moving
         
-            transform.position += moveDirection * (_moveSpeed * Time.deltaTime);
+            transform.position += moveDirection * (Time.deltaTime * _moveSpeed);
         }
     }
 
@@ -54,19 +55,22 @@ public class ArrowProjectile : MonoBehaviour
     {
         if (other.TryGetComponent(out Tower tower))
         {
-            // Ignore tower collider
+            return;
+        }
 
+        if (!other.TryGetComponent(out Enemy enemy))
+        {
+            Destroy(gameObject);
+            
             return;
         }
         
-        if (other.TryGetComponent(out Enemy enemy))
-        {
-            // Hit an enemy
+        // Hit an enemy
             
-            AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyHit);
-            enemy.GetComponent<HealthSystem>().TakeDamage(_damage);
-        }
-        
+        AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyHit);
+        CinemachineShake.Instance.ShakeCamera(8f, 0.8f);
+        enemy.GetComponent<HealthSystem>().TakeDamage(_damage);
+         
         Destroy(gameObject);
     }
     
@@ -77,7 +81,7 @@ public class ArrowProjectile : MonoBehaviour
 
         ArrowProjectile arrowProjectile = arrowProjectileTransform.GetComponent<ArrowProjectile>();
         arrowProjectile.SetTarget(enemy);
-
+        
         return arrowProjectile;
     }
 }

@@ -12,6 +12,19 @@ public class CameraHandler : MonoBehaviour
     private float _defaultOrthographicSize;
     private bool _isEdgeScrollingOn = true;
     private float _edgeScrollingSize = 20f;
+    public const string EDGE_SCROLLING = "edgeScrolling";
+
+    private void Awake()
+    {
+        if (PlayerPrefs.GetInt(EDGE_SCROLLING, 1) == 0)
+        {
+            _isEdgeScrollingOn = false;
+        }
+        else if (PlayerPrefs.GetInt(EDGE_SCROLLING, 1) == 1)
+        {
+            _isEdgeScrollingOn = true;
+        }
+    }
 
     private void Start()
     {
@@ -26,7 +39,6 @@ public class CameraHandler : MonoBehaviour
         _inputActions.Player.DefaultCameraZoom.performed += RestoreZoom;
 
         _optionsUI.OnEdgeScrollingToggleChanged += ToggleEdgeScrolling;
-
     }
     
     private void Update()

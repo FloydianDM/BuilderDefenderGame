@@ -1,18 +1,21 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour
 {
+    [SerializeField] private Toggle _edgeScrollingToggle;    
     [SerializeField] private TextMeshProUGUI _sFXVolumeText;
     [SerializeField] private TextMeshProUGUI _musicVolumeText;
-    [SerializeField] private AudioManager _audioManager;
 
     public event Action OnEdgeScrollingToggleChanged; 
 
     private void Awake()
     {
         gameObject.SetActive(false);
+        
+        SetEdgeScrollingToggleIndicator();
     }
 
     private void Start()
@@ -33,33 +36,54 @@ public class OptionsUI : MonoBehaviour
             Time.timeScale = 1f; // Resume game
         }
     }
+    
+    private void SetEdgeScrollingToggleIndicator()
+    {
+        if (PlayerPrefs.GetInt(CameraHandler.EDGE_SCROLLING, 1) == 0)
+        {
+            _edgeScrollingToggle.isOn = false;
+        }
+        else if (PlayerPrefs.GetInt(CameraHandler.EDGE_SCROLLING, 1) == 1)
+        {
+            _edgeScrollingToggle.isOn = true;
+        }
+    }
 
     public void ToggleEdgeScrolling()
     {
+        if (_edgeScrollingToggle.isOn)
+        {
+            PlayerPrefs.SetInt(CameraHandler.EDGE_SCROLLING, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(CameraHandler.EDGE_SCROLLING, 0);
+        }
+        
         OnEdgeScrollingToggleChanged?.Invoke();
     }
 
     public void DecreaseSFX()
     {
-        _audioManager.DecreaseSFXVolume();
+        AudioManager.Instance.DecreaseSFXVolume();
         SetVolumeText();
     }
 
     public void IncreaseSFX()
     {
-        _audioManager.IncreaseSFXVolume();
+        AudioManager.Instance.IncreaseSFXVolume();
         SetVolumeText();
     }
 
     public void DecreaseMusic()
     {
-        _audioManager.DecreaseMusicVolume();
+        AudioManager.Instance.DecreaseMusicVolume();
         SetVolumeText();
     }
 
     public void IncreaseMusic()
     {
-        _audioManager.IncreaseMusicVolume();
+        AudioManager.Instance.IncreaseMusicVolume();
         SetVolumeText();
     }
 

@@ -1,7 +1,11 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class BuildingConstruction : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _buildingPlacedParticles;
+    
     private float _maxConstructionTimer;
     private float _constructionTimer;
     private BuildingTypeSO _buildingType;
@@ -16,11 +20,17 @@ public class BuildingConstruction : MonoBehaviour
         _buildingTypeHolder = GetComponent<BuildingTypeHolder>();
         _buildingConstructionMaterial = GetComponentInChildren<SpriteRenderer>().material;
         _progressShaderID = Shader.PropertyToID("_Progress");
+        _buildingPlacedParticles.Play();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(ConstructBuildingRoutine());
     }
 
     private void Update()
     {
-        ConstructBuilding();
+        _constructionTimer -= Time.deltaTime;
     }
 
     private void SetBuilding(BuildingTypeSO buildingType)
@@ -35,16 +45,16 @@ public class BuildingConstruction : MonoBehaviour
         _boxCollider.size = buildingType.Prefab.GetComponent<BoxCollider2D>().size;
     }
 
-    private void ConstructBuilding()
+    private IEnumerator ConstructBuildingRoutine()
     {
-        _constructionTimer -= Time.deltaTime;
         _buildingConstructionMaterial.SetFloat(_progressShaderID, 1 - GetConstructionTimerRatio());
 
-        if (_constructionTimer <= 0)
-        {
-            Instantiate(_buildingType.Prefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(_constructionTimer);
+        
+        Instantiate(_buildingType.Prefab, transform.position, Quaternion.identity);
+        _buildingPlacedParticles.Play();
+        
+        Destroy(gameObject, 0.5f);
     }
 
     public float GetConstructionTimerRatio()

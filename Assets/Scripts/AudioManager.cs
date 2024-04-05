@@ -10,12 +10,17 @@ public class AudioManager : MonoBehaviour
     
     private AudioSource _sFXAudioSource;
     private Dictionary<SFX, AudioClip> _sFXDictionary = new();
-    public float SFXVolume { get; private set; } = 0.5f;
-    public float MusicVolume { get; private set; } = 0.5f;
+    public float SFXVolume { get; private set; }
+    public float MusicVolume { get; private set; }
+    public const string SFX_VOLUME = "sfxVolume";
+    public const string MUSIC_VOLUME = "musicVolume";
 
     private void Awake()
     {
         ManageSingleton();
+
+        SFXVolume = PlayerPrefs.GetFloat(SFX_VOLUME, 0.5f);
+        MusicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME, 0.5f);
         
         _sFXAudioSource = GetComponent<AudioSource>();
         _sFXAudioSource.volume = SFXVolume;
@@ -46,6 +51,8 @@ public class AudioManager : MonoBehaviour
     { 
         SFXVolume -= 0.1f;
         SFXVolume = Mathf.Clamp01(SFXVolume);
+        
+        PlayerPrefs.SetFloat(SFX_VOLUME, SFXVolume);
 
         _sFXAudioSource.volume = SFXVolume;
     }
@@ -55,6 +62,8 @@ public class AudioManager : MonoBehaviour
         SFXVolume += 0.1f;
         SFXVolume = Mathf.Clamp01(SFXVolume);
         
+        PlayerPrefs.SetFloat(SFX_VOLUME, SFXVolume);
+        
         _sFXAudioSource.volume = SFXVolume;
     }
     
@@ -62,6 +71,8 @@ public class AudioManager : MonoBehaviour
     {
         MusicVolume -= 0.1f;
         MusicVolume = Mathf.Clamp01(MusicVolume);
+        
+        PlayerPrefs.SetFloat(MUSIC_VOLUME, MusicVolume);
 
         _musicAudioSource.volume = MusicVolume;
     }
@@ -70,6 +81,8 @@ public class AudioManager : MonoBehaviour
     {
         MusicVolume += 0.1f;
         MusicVolume = Mathf.Clamp01(MusicVolume);
+        
+        PlayerPrefs.SetFloat(MUSIC_VOLUME, MusicVolume);
 
         _musicAudioSource.volume = MusicVolume;;
     }
@@ -89,8 +102,5 @@ public class AudioManager : MonoBehaviour
         EnemyWaveStarting,
         GameOver
     }
-
-
-    
 }
 
