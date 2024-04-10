@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -62,12 +61,12 @@ public class BuildingConstruction : MonoBehaviour
         return _constructionTimer / _maxConstructionTimer;
     }
 
-    public static BuildingConstruction CreateBuildingConstruction(Vector2 spawnPosition, BuildingTypeSO buildingType)
+    public static BuildingConstruction CreateBuildingConstruction(
+        GameObject buildingConstructionPrefab, Vector2 spawnPosition, BuildingTypeSO buildingType)
     {
-        Transform buildingConstructionPrefab = Resources.Load<Transform>("BuildingConstructionPrefab");
         buildingConstructionPrefab.GetComponentInChildren<SpriteRenderer>().sprite = buildingType.Sprite;
         Transform buildingConstructionTransform =
-            Instantiate(buildingConstructionPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(buildingConstructionPrefab.transform, spawnPosition, Quaternion.identity);
 
         BuildingConstruction buildingConstruction = buildingConstructionTransform.GetComponent<BuildingConstruction>();
         

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [SerializeField] private GameObject _arrowProjectilePrefab;
     [SerializeField] private Transform _arrowSpawnTransform;
     
     private Enemy _targetEnemy;
@@ -67,7 +68,8 @@ public class Tower : MonoBehaviour
             }
             else
             {
-                ArrowProjectile.CreateArrowProjectile(_arrowSpawnTransform.position, _targetEnemy);
+                ArrowProjectile.CreateArrowProjectile(
+                    _arrowProjectilePrefab,_arrowSpawnTransform.position, _targetEnemy);
                 
                 yield return new WaitForSeconds(_shootingRate);
             }

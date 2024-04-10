@@ -8,6 +8,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private BuildingSelectUI _buildingSelectUI;
     [SerializeField] private Building _hqBuilding;
     [SerializeField] private ResourceManager _resourceManager;
+    [SerializeField] private GameObject _buildingConstructionPrefab;
 
     private TooltipUI _tooltipUI;
     private BuildingTypeListSO _buildingTypeList;
@@ -64,7 +65,8 @@ public class BuildingManager : MonoBehaviour
         
         // Create building
         
-        BuildingConstruction.CreateBuildingConstruction(UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
+        BuildingConstruction.CreateBuildingConstruction(
+            _buildingConstructionPrefab, UtilsClass.GetMouseWorldPosition(), _activeBuildingType);
         AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingPlaced);
         _resourceManager.SpendResources(_activeBuildingType.ConstructionResourceCostArray);
     }

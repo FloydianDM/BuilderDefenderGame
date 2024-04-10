@@ -1,5 +1,3 @@
-using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -38,6 +36,8 @@ public class Building : MonoBehaviour
     private void DestroyBuilding()
     {
         AudioManager.Instance.PlaySFX(AudioManager.SFX.BuildingDestroyed);
+        CinemachineShake.Instance.ShakeCamera(9, 1);
+        ChromaticAberrationEffect.Instance.SetChromaticAberrationWeight(0.8f);
         _buildingDestroyedParticles.Play();
         
         Destroy(gameObject, 0.5f);

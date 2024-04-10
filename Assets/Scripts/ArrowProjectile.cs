@@ -1,4 +1,3 @@
-using Cinemachine;
 using UnityEngine;
 
 public class ArrowProjectile : MonoBehaviour
@@ -69,15 +68,15 @@ public class ArrowProjectile : MonoBehaviour
             
         AudioManager.Instance.PlaySFX(AudioManager.SFX.EnemyHit);
         CinemachineShake.Instance.ShakeCamera(8f, 0.8f);
+        ChromaticAberrationEffect.Instance.SetChromaticAberrationWeight(0.2f);
         enemy.GetComponent<HealthSystem>().TakeDamage(_damage);
          
         Destroy(gameObject);
     }
     
-    public static ArrowProjectile CreateArrowProjectile(Vector2 spawnPosition, Enemy enemy)
+    public static ArrowProjectile CreateArrowProjectile(GameObject arrow, Vector2 spawnPosition, Enemy enemy)
     {
-        Transform arrowProjectilePrefab = Resources.Load<Transform>("ArrowProjectilePrefab");
-        Transform arrowProjectileTransform = Instantiate(arrowProjectilePrefab, spawnPosition, Quaternion.identity);
+        GameObject arrowProjectileTransform = Instantiate(arrow, spawnPosition, Quaternion.identity);
 
         ArrowProjectile arrowProjectile = arrowProjectileTransform.GetComponent<ArrowProjectile>();
         arrowProjectile.SetTarget(enemy);

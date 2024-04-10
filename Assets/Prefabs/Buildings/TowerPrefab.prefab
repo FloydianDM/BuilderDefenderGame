@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705abab3ba76a442f8c268eab1079e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _arrowProjectilePrefab: {fileID: 6931401360283247191, guid: b1e8e67e75aa74572bda015ca326561d, type: 3}
   _arrowSpawnTransform: {fileID: 731357684271095278}
 --- !u!1 &6955934854118088113
 GameObject:
