@@ -30,6 +30,7 @@ public class BuildingConstruction : MonoBehaviour
     private void Update()
     {
         _constructionTimer -= Time.deltaTime;
+        _buildingConstructionMaterial.SetFloat(_progressShaderID, 1 - GetConstructionTimerRatio());
     }
 
     private void SetBuilding(BuildingTypeSO buildingType)
