@@ -72,7 +72,7 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     - _OutlineThickness: 0.005
-    - _Progress: 0.108
+    - _Progress: 0.38
     - _Segments: 10
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
